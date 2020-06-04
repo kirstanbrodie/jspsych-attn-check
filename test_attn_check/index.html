@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Harvard University HIT</title>
+    <script src="//mprlab327.webfactional.com/kbrodie/jspsych-6.0.3/jspsych.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script src="//mprlab327.webfactional.com/kbrodie/jspsych-6.0.3/plugins/jspsych-html-keyboard-response.js"></script>
+    <script src="//mprlab327.webfactional.com/kbrodie/jspsych-6.0.3/plugins/jspsych-attn-check.js"></script> 
+    <link rel="stylesheet" href="//mprlab327.webfactional.com/kbrodie/jspsych-6.0.3/css/jspsych.css"></link>
+  </head>
+  <body></body>
+  <script>
+
+    /* create timeline */
+    var timeline = [];
+
+    var welcome = {
+      type: "html-keyboard-response",
+      stimulus: "<div class='center-content'><br><br><br>Welcome to the HIT. Press any key to begin.",
+    };
+    timeline.push(welcome);
+
+    var attn_check = {
+      type: 'attn-check',
+      stimulus: "images/kitten.png", //put the link to the image you are using here
+      preamble: "Please type out the text you see in the image below. Make sure to copy it exactly, including capitalization and punctuation.", //put your instructions here (feel free to customize)
+      threshold: 95, // what percentage correct must participants' responses be in order to be approved? 
+      compare_to: "The kitten named Fluffy is cute.", //put the correct response to the attention check here
+      on_finish: function(data) {
+        if(data.approved == true) { 
+          jsPsych.data.addProperties({
+            attn_check: "passed" // OPTIONAL: this adds a data field to all of the trials for the study indicating that this person passed the attention check
+          });
+        } else {
+          jsPsych.data.addProperties({
+            attn_check: "failed" 
+          });
+          // IMPORTANT: if you use the call-function plugin to save data, rather than the experiment on_finish handler, then make sure to add your saveData function here so the failed attempt is recorded!
+          jsPsych.endExperiment('You did not pass the attention check. You may not proceed with the experiment. Please close this window.'); 
+          // any ideas of ways to prevent them from just refreshing the page and starting over? 
+          // if you want to give people a second chance, you could instead put an alert here telling them to try again, and use a loop_function node to repeat the attn_check until they get close enough: see https://www.jspsych.org/overview/timeline/#looping-timelines for instructions
+        }
+      }
+    };
+    timeline.push(attn_check);
+
+    var end = {
+      type: "html-keyboard-response",
+      stimulus: "<div class='center-content'><br><br><br>Thank you for completing this HIT! You passed the attention check.",
+    };
+    timeline.push(end);
+
+
+    /* start the experiment */
+    jsPsych.init({
+      timeline: timeline,
+      on_finish: function() {
+        jsPsych.data.displayData();
+      }
+    });
+  </script>
+</html>
