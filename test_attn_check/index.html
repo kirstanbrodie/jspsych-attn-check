@@ -36,21 +36,47 @@
           jsPsych.data.addProperties({
             attn_check: "failed" 
           });
-          // IMPORTANT: if you use the call-function plugin to save data, rather than the experiment on_finish handler, then make sure to add your saveData function here so the failed attempt is recorded!
-          jsPsych.endExperiment('You did not pass the attention check. You may not proceed with the experiment. Please close this window.'); 
-          // any ideas of ways to prevent them from just refreshing the page and starting over? 
-          // if you want to give people a second chance, you could instead put an alert here telling them to try again, and use a loop_function node to repeat the attn_check until they get close enough: see https://www.jspsych.org/overview/timeline/#looping-timelines for instructions
         }
       }
     };
     timeline.push(attn_check);
-
-    var end = {
-      type: "html-keyboard-response",
-      stimulus: "<div class='center-content'><br><br><br>Thank you for completing this HIT! You passed the attention check.",
-    };
-    timeline.push(end);
-
+    
+    var attn_check_node_pass = {
+       timeline: [
+          {
+            type: "html-keyboard-response",
+            stimulus: "<div class='center-content'><br><br><br>Congrats! You passed the attention check.",
+          }       
+       ],
+       conditional_function: function(){
+          var data = jsPsych.data.get().last(1).values()[0];
+          if(data.approved == false){
+              return false;
+          } else {
+              return true;
+          }
+        }
+     };
+    
+    var attn_check_node_fail = {
+       timeline: [
+          {
+            type: "html-keyboard-response",
+            stimulus: "<div class='center-content'><br><br><br>Sorry! You failed the attention check.",
+          }       
+       ],
+       conditional_function: function(){
+          var data = jsPsych.data.get().last(1).values()[0];
+          if(data.approved == true){
+              return false;
+          } else {
+              return true;
+          }
+        }
+     };
+    
+    timeline.push(attn_check_node_pass);
+    timeline.push(attn_check_node_fail);
 
     /* start the experiment */
     jsPsych.init({
