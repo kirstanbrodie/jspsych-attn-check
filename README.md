@@ -14,3 +14,16 @@ Display an image and a text box, then compare text box response to a string of y
 |button_label|string|'Continue'|The text that appears on the button to finish the trial.|
 |compare_to|string|'Comparison text'|The text string that the participant response is compared to.|
 |threshold|integer|90|The threshold for the Levenshtein distance required to pass approval for the attention check - indicate the *minimum percentage correct required for approval*.|
+
+Data recorded by this plugin:
+- rt
+- stimulus 
+- response (response provided by participant, in a JSON object)
+- distance (Levenshtein distance between participant response and correct response)
+- percent_correct
+- compare_to (the correct response that the participant response was compared to)
+- approved (whether the Levenshtein distance percentage correct was equal to or above the threshold you specified)
+- trial_type
+- trial_index
+- time_elapsed
+		"internal_node_id
