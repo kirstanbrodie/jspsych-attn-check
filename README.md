@@ -21,6 +21,7 @@ Data recorded by this plugin:
 - response (response provided by participant, in a JSON object)
 - distance (Levenshtein distance between participant response and correct response)
 - percent_correct
+- percent_required (the threshold percentage)
 - compare_to (the correct response that the participant response was compared to)
 - approved (whether the Levenshtein distance percentage correct was equal to or above the threshold you specified)
 - trial_type
