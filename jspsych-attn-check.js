@@ -17,6 +17,10 @@ jsPsych.plugins['attn-check'] = (function() {
 
   jsPsych.pluginAPI.registerPreload('attn-check', 'stimulus', 'image');
 
+  $.getScript('//mprlab327.webfactional.com/attn_check_stimuli/para_txt.js', function() //loads the default correct responses
+  {
+  });
+
   plugin.info = {
     name: 'attn-check',
     description: 'Display an image and a text box, then compare text box response to a string of your choice and get the Levenshtein distance between the two; specify a threshold of percentage correct required for approval.',
@@ -24,7 +28,7 @@ jsPsych.plugins['attn-check'] = (function() {
       stimulus: {
         type: jsPsych.plugins.parameterType.IMAGE,
         pretty_name: 'Stimulus',
-        default: undefined,
+        default: '',
         description: 'The image to be displayed'
       },
       stimulus_height: {
@@ -48,7 +52,7 @@ jsPsych.plugins['attn-check'] = (function() {
       preamble: {
         type: jsPsych.plugins.parameterType.STRING,
         pretty_name: 'Preamble',
-        default: null,
+        default: "Please transcribe (copy) the text in the image below into the input field. Only transcribe the <strong>fourth sentence</strong>.<br>Add an exclamation point at the end of the sentence you have typed instead of the question mark. </br>Be exact and make sure to get all characters and spaces correct. We just need to make sure you're paying attention and speak English.",
         description: 'Any content here will display at the top of the page above the image.'
       },
       rows: {
@@ -78,13 +82,13 @@ jsPsych.plugins['attn-check'] = (function() {
       compare_to: {
         type: jsPsych.plugins.parameterType.STRING,
         pretty_name: 'Compare to',
-        default: 'Comparison text',
+        default: '', 
         description: 'The text string that the participant response is compared to.'
       },
       threshold: {
         type: jsPsych.plugins.parameterType.INT,
         pretty_name: 'Threshold',
-        default: 90,
+        default: 95,
         description: 'The threshold for the Levenshtein distance required to pass approval for the attention check - indicate the minimum percentage correct required for approval.'
       }
     }
@@ -101,12 +105,35 @@ jsPsych.plugins['attn-check'] = (function() {
       trial.columns = 40;
     }
 
+    // generate a random integer from 0 to 19
+    var randInt = Math.floor(Math.random() * 20);
+
+    console.log(randInt);
+    
+    //list out array of image stimuli/corresponding correct responses
+    
+    var paras = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"];
+
+    // select the stimulus and corresponding correct response based on the random integer generated 
+
+    var default_stimulus = "//mprlab327.webfactional.com/attn_check_stimuli/para_img/para"+paras[randInt]+".png";
+    var default_correct_response = partial_text[randInt];
+    
+    //pull out the actual text from the correct response text file, and save it in an embedded data variable
+
+    if (trial.stimulus == '') {
+      trial.stimulus = default_stimulus;
+    }
+
+    if (trial.compare_to == '') {
+      trial.compare_to = default_correct_response;
+      console.log(default_correct_response);
+    }
+
     var html = '';
 
-    // add prompt text
-    if(trial.preamble !== null){
-      html += '<div id="jspsych-survey-text-preamble" class="jspsych-survey-text-preamble">'+trial.preamble+'</div>';
-    }
+    // add preamble text
+    html += '<div id="jspsych-survey-text-preamble" class="jspsych-survey-text-preamble">'+trial.preamble+'</div>';
 
     // add stimulus and specify size if necessary 
     html += '<img src="'+trial.stimulus+'" id="jspsych-image-keyboard-response-stimulus" style="';
@@ -225,6 +252,7 @@ jsPsych.plugins['attn-check'] = (function() {
         "response": JSON.stringify(question_data),
         "distance": distance,
         "percent_correct": percent_correct,
+        "percent_required": trial.threshold,
         "compare_to": trial.compare_to,
         "approved": approved
       };
