@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Harvard University HIT</title>
+    <script src="//mprlab327.webfactional.com/kbrodie/jspsych-6.0.3/jspsych.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script src="//mprlab327.webfactional.com/kbrodie/jspsych-6.0.3/plugins/jspsych-html-keyboard-response.js"></script>
+    <script src="//mprlab327.webfactional.com/kbrodie/jspsych-6.0.3/plugins/jspsych-attn-check.js"></script> 
+    <link rel="stylesheet" href="//mprlab327.webfactional.com/kbrodie/jspsych-6.0.3/css/jspsych.css"></link>
+  </head>
+  <body></body>
+  <script>
+
+    /* create timeline */
+    var timeline = [];
+
+    var welcome = {
+      type: "html-keyboard-response",
+      stimulus: "<div class='center-content'><br><br><br>Welcome to the HIT. Press any key to begin.",
+    };
+    timeline.push(welcome);
+
+    var attn_check = {
+      type: 'attn-check',
+      on_finish: function(data) {
+        if(data.approved == true) { 
+          jsPsych.data.addProperties({
+            attn_check: "passed" // OPTIONAL: this adds a data field to all of the trials for the study indicating that this person passed the attention check
+          });
+        } else {
+          jsPsych.data.addProperties({
+            attn_check: "failed" 
+          });
+        }
+      }
+    };
+    timeline.push(attn_check);
+
+    /* start the experiment */
+    jsPsych.init({
+      timeline: timeline,
+      on_finish: function() {
+        jsPsych.data.displayData();
+      }
+    });
+  </script>
+</html>
+
