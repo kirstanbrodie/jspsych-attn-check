@@ -107,8 +107,6 @@ jsPsych.plugins['attn-check'] = (function() {
 
     // generate a random integer from 0 to 19
     var randInt = Math.floor(Math.random() * 20);
-
-    console.log(randInt);
     
     //list out array of image stimuli/corresponding correct responses
     
@@ -127,7 +125,6 @@ jsPsych.plugins['attn-check'] = (function() {
 
     if (trial.compare_to == '') {
       trial.compare_to = default_correct_response;
-      console.log(default_correct_response);
     }
 
     var html = '';
