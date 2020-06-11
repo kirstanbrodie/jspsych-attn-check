@@ -1,5 +1,5 @@
 # jspsych-attn-check
-Display an image and a text box, then compare text box response to a string of your choice and get the Levenshtein distance between the two; specify a threshold of percentage correct required for approval. Can be used like any other jsPsych plugin. See [this HTML file](test_attn_check.html) for a sample implementation.
+Display an image and a text box, then compare text box response to a string of your choice and get the Levenshtein distance between the two; specify a threshold of percentage correct required for approval. Can be used like any other jsPsych plugin. See [this](test_attn_check.html) HTML file for a sample implementation.
 
 |Parameter|Type|Default Value|Description|
 |---|---|---|---|
