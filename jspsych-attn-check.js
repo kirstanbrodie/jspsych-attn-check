@@ -52,7 +52,7 @@ jsPsych.plugins['attn-check'] = (function() {
       preamble: {
         type: jsPsych.plugins.parameterType.STRING,
         pretty_name: 'Preamble',
-        default: "Please transcribe (copy) the text in the image below into the input field. Only transcribe the <strong>fourth sentence</strong>.<br>Add an exclamation point at the end of the sentence you have typed instead of the question mark. </br>Be exact and make sure to get all characters and spaces correct. We just need to make sure you're paying attention and speak English.",
+        default: "Please transcribe (copy) the text in the image below into the input field. Only transcribe the <strong>second and fourth sentences</strong>.<br>Add an exclamation point at the end of the <strong>second sentence you have typed</strong> instead of the question mark. </br>Be exact and make sure to get all characters and spaces correct. We just need to make sure you're paying attention and speak English.",
         description: 'Any content here will display at the top of the page above the image.'
       },
       rows: {
