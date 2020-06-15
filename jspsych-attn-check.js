@@ -17,7 +17,7 @@ jsPsych.plugins['attn-check'] = (function() {
 
   jsPsych.pluginAPI.registerPreload('attn-check', 'stimulus', 'image');
 
-  $.getScript('//mprlab327.webfactional.com/attn_check_stimuli/para_txt.js', function() //loads the default correct responses
+  $.getScript('http://mprlab327.webfactional.com/attn_check_stimuli/para_txt.js', function() //loads the default correct responses
   {
   });
 
@@ -114,7 +114,7 @@ jsPsych.plugins['attn-check'] = (function() {
 
     // select the stimulus and corresponding correct response based on the random integer generated 
 
-    var default_stimulus = "//mprlab327.webfactional.com/attn_check_stimuli/para_img/para"+paras[randInt]+".png";
+    var default_stimulus = "http://mprlab327.webfactional.com/attn_check_stimuli/para_img/para"+paras[randInt]+".png";
     var default_correct_response = partial_text[randInt];
     
     //pull out the actual text from the correct response text file, and save it in an embedded data variable
