@@ -130,9 +130,10 @@ jsPsych.plugins['attn-check'] = (function() {
     var html = '';
 
     // add preamble text
-    html += '<div id="jspsych-survey-text-preamble" class="jspsych-survey-text-preamble">'+trial.preamble+'</div>';
+    html += '<div id="jspsych-survey-text-preamble" class="jspsych-survey-text-preamble">'+trial.preamble+'</br></div>';
 
     // add stimulus and specify size if necessary 
+    html += '<div id="jspsych-image-slider-response-stimulus">'
     html += '<img src="'+trial.stimulus+'" id="jspsych-image-keyboard-response-stimulus" style="';
 
     if(trial.stimulus_height !== null){
@@ -148,6 +149,7 @@ jsPsych.plugins['attn-check'] = (function() {
       }
     }
     html +='"></img>';
+    html += '</div>'
 
     // add form a.k.a. single text box
     html += '<form id="jspsych-survey-text-form">'
